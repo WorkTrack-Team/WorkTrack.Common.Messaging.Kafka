@@ -52,8 +52,7 @@ jobs:
           </configuration>
           EOF
           # Подставляем токен в файл после создания
-          sed -i.bak "s|\$NUGET_PAT|${NUGET_PAT}|g" ~/.nuget/NuGet/NuGet.Config
-          rm -f ~/.nuget/NuGet/NuGet.Config.bak
+          sed -i "s|\$NUGET_PAT|${NUGET_PAT}|g" ~/.nuget/NuGet/NuGet.Config
 
       - name: Restore dependencies
         run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln
@@ -145,8 +144,7 @@ jobs:
           </configuration>
           EOF
           # Подставляем токен в файл после создания
-          sed -i.bak "s|\$NUGET_PAT|${NUGET_PAT}|g" ~/.nuget/NuGet/NuGet.Config
-          rm -f ~/.nuget/NuGet/NuGet.Config.bak
+          sed -i "s|\$NUGET_PAT|${NUGET_PAT}|g" ~/.nuget/NuGet/NuGet.Config
 
       - name: Restore dependencies
         run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln
