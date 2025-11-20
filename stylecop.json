@@ -1,0 +1,73 @@
+{
+    "settings": {
+        "documentationRules": {
+            "companyName": "BelousovMike",
+            "documentExposedElements": true,
+            "documentInternalElements": false,
+            "documentPrivateElements": false,
+            "documentInterfaces": true,
+            "documentPrivateFields": false,
+            "documentPrivateMethods": false,
+            "documentPrivateProperties": false,
+            "documentPrivateEvents": false,
+            "documentPrivateAccessors": false,
+            "fileNamingConvention": "stylecop",
+            "xmlHeader": true
+        },
+        "orderingRules": {
+            "elementOrder": [
+                "kind",
+                "accessibility",
+                "constant",
+                "static",
+                "readonly"
+            ],
+            "usingDirectivesPlacement": "outsideNamespace",
+            "systemUsingDirectivesFirst": true
+        },
+        "indentation": {
+            "useTabs": false,
+            "indentationSize": 4
+        },
+        "layoutRules": {
+            "newlineAtEndOfFile": "require"
+        },
+        "namingRules": {
+            "allowCommonHungarianPrefixes": false,
+            "includeInferredTupleElementNames": true,
+            "tupleElementNameCasing": "pascalCase",
+            "allowedNamespaceComponents": [
+                "PascalCase"
+            ],
+            "allowedFieldNames": [
+                "_camelCase"
+            ],
+            "allowedPropertyNames": [
+                "PascalCase"
+            ],
+            "allowedMethodNames": [
+                "PascalCase"
+            ],
+            "allowedParameterNames": [
+                "camelCase"
+            ],
+            "allowedTypeNames": [
+                "PascalCase"
+            ]
+        },
+        "fileScopedNamespace": true,
+        "rules": {
+            "SA1623": false,
+            "SA1101": false,
+            "SA1633": false,
+            "SA1636": false,
+            "SA1641": false,
+            "SA1309": false,
+            "SA1206": false,
+            "SA1202": false,
+            "SA1201": false,
+            "SA1642": false
+        }
+    }
+}
+

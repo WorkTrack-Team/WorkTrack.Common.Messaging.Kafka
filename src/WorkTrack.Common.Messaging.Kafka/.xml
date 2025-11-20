@@ -1,0 +1,240 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WorkTrack.Common.Messaging.Kafka</name>
+    </assembly>
+    <members>
+        <member name="T:WorkTrack.Common.Messaging.Kafka.DependencyInjection.ServiceCollectionExtensions">
+            <summary>
+            Расширения для регистрации Kafka messaging в DI контейнере.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.DependencyInjection.ServiceCollectionExtensions.AddKafkaMessagePublisher(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{WorkTrack.Common.Messaging.Kafka.Options.KafkaOptions})">
+            <summary>
+            Добавляет Kafka message publisher в DI контейнер.
+            </summary>
+            <param name="services">Коллекция сервисов.</param>
+            <param name="configure">Делегат для настройки опций Kafka.</param>
+            <returns>Коллекция сервисов для цепочки вызовов.</returns>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.DependencyInjection.ServiceCollectionExtensions.AddKafkaMessagePublisher(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,System.String)">
+            <summary>
+            Добавляет Kafka message publisher в DI контейнер с использованием IConfiguration.
+            </summary>
+            <param name="services">Коллекция сервисов.</param>
+            <param name="configuration">Конфигурация приложения.</param>
+            <param name="configurationSectionName">Имя секции конфигурации (по умолчанию "Kafka").</param>
+            <returns>Коллекция сервисов для цепочки вызовов.</returns>
+        </member>
+        <member name="T:WorkTrack.Common.Messaging.Kafka.Internal.IKafkaProducerFactory">
+            <summary>
+            Фабрика Kafka-продюсеров.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Internal.IKafkaProducerFactory.GetProducer">
+            <summary>
+            Возвращает продюсер Kafka.
+            </summary>
+            <returns>Экземпляр продюсера Kafka.</returns>
+        </member>
+        <member name="T:WorkTrack.Common.Messaging.Kafka.Internal.KafkaConsumerFactory">
+            <summary>
+            Фабрика Kafka-консьюмеров.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Internal.KafkaConsumerFactory.#ctor(Microsoft.Extensions.Options.IOptions{WorkTrack.Common.Messaging.Kafka.Options.KafkaOptions})">
+            <summary>
+            Initializes a new instance of the <see cref="T:WorkTrack.Common.Messaging.Kafka.Internal.KafkaConsumerFactory"/> class.
+            </summary>
+            <param name="options">Настройки Kafka.</param>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Internal.KafkaConsumerFactory.CreateConsumer">
+            <summary>
+            Создаёт новый консьюмер Kafka.
+            </summary>
+            <returns>Экземпляр консьюмера Kafka.</returns>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Internal.KafkaConsumerFactory.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:WorkTrack.Common.Messaging.Kafka.Internal.KafkaProducerFactory">
+            <summary>
+            Фабрика Kafka-продюсеров.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Internal.KafkaProducerFactory.#ctor(Microsoft.Extensions.Options.IOptions{WorkTrack.Common.Messaging.Kafka.Options.KafkaOptions})">
+            <summary>
+            Initializes a new instance of the <see cref="T:WorkTrack.Common.Messaging.Kafka.Internal.KafkaProducerFactory"/> class.
+            </summary>
+            <param name="options">Настройки Kafka.</param>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Internal.KafkaProducerFactory.GetProducer">
+            <summary>
+            Возвращает продюсер Kafka.
+            </summary>
+            <returns>Экземпляр продюсера Kafka.</returns>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Internal.KafkaProducerFactory.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:WorkTrack.Common.Messaging.Kafka.KafkaMessagePublisher">
+            <summary>
+            Реализация IMessagePublisher для Apache Kafka.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.KafkaMessagePublisher.#ctor(WorkTrack.Common.Messaging.Kafka.Internal.IKafkaProducerFactory,WorkTrack.Common.Messaging.Serialization.IMessageSerializer,Serilog.ILogger,Microsoft.Extensions.Options.IOptions{WorkTrack.Common.Messaging.Kafka.Options.KafkaOptions})">
+            <summary>
+            Initializes a new instance of the <see cref="T:WorkTrack.Common.Messaging.Kafka.KafkaMessagePublisher"/> class.
+            </summary>
+            <param name="producerFactory">Фабрика Kafka-продюсеров.</param>
+            <param name="serializer">Сериализатор сообщений.</param>
+            <param name="logger">Логгер (Serilog).</param>
+            <param name="options">Настройки Kafka.</param>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.KafkaMessagePublisher.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.KafkaMessagePublisher.PublishCoreAsync(System.String,System.String,System.Byte[],System.Collections.Generic.IReadOnlyDictionary{System.String,System.String},System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.KafkaMessagePublisher.CreatePublishException(System.String,System.String,System.Exception)">
+            <inheritdoc />
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.KafkaMessagePublisher.LogDeliveryResult(Confluent.Kafka.DeliveryResult{System.String,System.Byte[]},System.String)">
+            <summary>
+            Логирует результат доставки сообщения в Kafka.
+            </summary>
+            <param name="deliveryResult">Результат доставки сообщения.</param>
+            <param name="key">Ключ сообщения.</param>
+        </member>
+        <member name="T:WorkTrack.Common.Messaging.Kafka.KafkaPublishException">
+            <summary>
+            Исключение публикации в Kafka.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.KafkaPublishException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:WorkTrack.Common.Messaging.Kafka.KafkaPublishException"/> class.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.KafkaPublishException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WorkTrack.Common.Messaging.Kafka.KafkaPublishException"/> class.
+            </summary>
+            <param name="message">Сообщение об ошибке.</param>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.KafkaPublishException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WorkTrack.Common.Messaging.Kafka.KafkaPublishException"/> class.
+            </summary>
+            <param name="message">Сообщение об ошибке.</param>
+            <param name="innerException">Исходное исключение.</param>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.KafkaPublishException.#ctor(System.String,System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:WorkTrack.Common.Messaging.Kafka.KafkaPublishException"/> class.
+            </summary>
+            <param name="topic">Имя топика.</param>
+            <param name="key">Ключ сообщения.</param>
+            <param name="innerException">Исходное исключение.</param>
+        </member>
+        <member name="T:WorkTrack.Common.Messaging.Kafka.Options.KafkaOptions">
+            <summary>
+            Конфигурация Kafka.
+            </summary>
+        </member>
+        <member name="P:WorkTrack.Common.Messaging.Kafka.Options.KafkaOptions.BootstrapServers">
+            <summary>
+            Bootstrap-сервера Kafka.
+            </summary>
+        </member>
+        <member name="P:WorkTrack.Common.Messaging.Kafka.Options.KafkaOptions.ClientId">
+            <summary>
+            Клиентский идентификатор продюсера.
+            </summary>
+        </member>
+        <member name="P:WorkTrack.Common.Messaging.Kafka.Options.KafkaOptions.EnableIdempotence">
+            <summary>
+            Использовать ли идемпотентность продюсера.
+            </summary>
+        </member>
+        <member name="P:WorkTrack.Common.Messaging.Kafka.Options.KafkaOptions.AcksTimeout">
+            <summary>
+            Таймаут подтверждения записи.
+            </summary>
+        </member>
+        <member name="P:WorkTrack.Common.Messaging.Kafka.Options.KafkaOptions.Acks">
+            <summary>
+            Требуемое количество подтверждений от брокеров перед завершением запроса (по умолчанию All = -1).
+            </summary>
+        </member>
+        <member name="P:WorkTrack.Common.Messaging.Kafka.Options.KafkaOptions.MessageSendMaxRetries">
+            <summary>
+            Количество повторных попыток отправки сообщения при ошибке.
+            </summary>
+        </member>
+        <member name="P:WorkTrack.Common.Messaging.Kafka.Options.KafkaOptions.LingerMs">
+            <summary>
+            Задержка в миллисекундах перед отправкой батча сообщений (0 = отправлять сразу).
+            </summary>
+        </member>
+        <member name="P:WorkTrack.Common.Messaging.Kafka.Options.KafkaOptions.GroupId">
+            <summary>
+            Group ID для consumer (по умолчанию используется ClientId).
+            </summary>
+        </member>
+        <member name="P:WorkTrack.Common.Messaging.Kafka.Options.KafkaOptions.AutoOffsetReset">
+            <summary>
+            Стратегия автоматического сброса смещения при отсутствии сохраненного смещения (по умолчанию "earliest").
+            </summary>
+        </member>
+        <member name="P:WorkTrack.Common.Messaging.Kafka.Options.KafkaOptions.SessionTimeout">
+            <summary>
+            Таймаут сессии consumer.
+            </summary>
+        </member>
+        <member name="P:WorkTrack.Common.Messaging.Kafka.Options.KafkaOptions.DefaultHeaders">
+            <summary>
+            Дополнительные заголовки для всех сообщений.
+            </summary>
+        </member>
+        <member name="P:WorkTrack.Common.Messaging.Kafka.Options.KafkaOptions.Security">
+            <summary>
+            Параметры безопасности (SASL/SCRAM и т.д.).
+            </summary>
+        </member>
+        <member name="T:WorkTrack.Common.Messaging.Kafka.Options.KafkaOptionsValidator">
+            <summary>
+            Валидатор конфигурации Kafka.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Options.KafkaOptionsValidator.Validate(System.String,WorkTrack.Common.Messaging.Kafka.Options.KafkaOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:WorkTrack.Common.Messaging.Kafka.Options.KafkaSecurityOptions">
+            <summary>
+            Настройки безопасности Kafka.
+            </summary>
+        </member>
+        <member name="P:WorkTrack.Common.Messaging.Kafka.Options.KafkaSecurityOptions.SecurityProtocol">
+            <summary>
+            Используемый протокол безопасности.
+            </summary>
+        </member>
+        <member name="P:WorkTrack.Common.Messaging.Kafka.Options.KafkaSecurityOptions.SaslMechanism">
+            <summary>
+            Тип механизма SASL.
+            </summary>
+        </member>
+        <member name="P:WorkTrack.Common.Messaging.Kafka.Options.KafkaSecurityOptions.SaslUsername">
+            <summary>
+            Имя пользователя SASL.
+            </summary>
+        </member>
+        <member name="P:WorkTrack.Common.Messaging.Kafka.Options.KafkaSecurityOptions.SaslPassword">
+            <summary>
+            Пароль SASL.
+            </summary>
+        </member>
+    </members>
+</doc>

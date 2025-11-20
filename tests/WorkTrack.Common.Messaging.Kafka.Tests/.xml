@@ -1,0 +1,238 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WorkTrack.Common.Messaging.Kafka.Tests</name>
+    </assembly>
+    <members>
+        <member name="T:WorkTrack.Common.Messaging.Kafka.Tests.KafkaConsumerFactoryTests">
+            <summary>
+            Тесты для <see cref="T:WorkTrack.Common.Messaging.Kafka.Internal.KafkaConsumerFactory"/>.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaConsumerFactoryTests.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:WorkTrack.Common.Messaging.Kafka.Tests.KafkaConsumerFactoryTests"/> class.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaConsumerFactoryTests.CreateConsumer_CreatesConsumer">
+            <summary>
+            Проверяет, что CreateConsumer создаёт консьюмер.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaConsumerFactoryTests.CreateConsumer_CreatesNewInstance">
+            <summary>
+            Проверяет, что CreateConsumer создаёт новый экземпляр при каждом вызове.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaConsumerFactoryTests.Dispose_DisposesFactory">
+            <summary>
+            Проверяет, что Dispose освобождает ресурсы.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaConsumerFactoryTests.Dispose_CanBeCalledMultipleTimes">
+            <summary>
+            Проверяет, что Dispose можно вызывать несколько раз безопасно.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaConsumerFactoryTests.Constructor_WithNullOptions_ThrowsArgumentNullException">
+            <summary>
+            Проверяет, что конструктор бросает исключение при null options.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaConsumerFactoryTests.Constructor_WithEmptyBootstrapServers_ThrowsArgumentException">
+            <summary>
+            Проверяет, что конструктор бросает исключение при пустом BootstrapServers.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaConsumerFactoryTests.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:WorkTrack.Common.Messaging.Kafka.Tests.KafkaMessagePublisherTests">
+            <summary>
+            Тесты для <see cref="T:WorkTrack.Common.Messaging.Kafka.KafkaMessagePublisher"/>.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaMessagePublisherTests.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:WorkTrack.Common.Messaging.Kafka.Tests.KafkaMessagePublisherTests"/> class.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaMessagePublisherTests.PublishAsync_CallsProduceAsync_WithCorrectParameters">
+            <summary>
+            Проверяет, что PublishAsync вызывает ProduceAsync с правильными параметрами.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaMessagePublisherTests.PublishAsync_PassesHeaders_ToKafkaMessage">
+            <summary>
+            Проверяет, что PublishAsync передаёт заголовки в сообщение Kafka.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaMessagePublisherTests.PublishAsync_OnError_ThrowsKafkaPublishException">
+            <summary>
+            Проверяет, что PublishAsync бросает KafkaPublishException при ошибке.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaMessagePublisherTests.Dispose_DisposesProducerFactory">
+            <summary>
+            Проверяет, что Dispose освобождает ресурсы.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaMessagePublisherTests.Dispose_CanBeCalledMultipleTimes">
+            <summary>
+            Проверяет, что Dispose можно вызывать несколько раз безопасно.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaMessagePublisherTests.PublishAsync_AfterDispose_ThrowsKafkaPublishException">
+            <summary>
+            Проверяет, что PublishAsync бросает KafkaPublishException с ObjectDisposedException после Dispose.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaMessagePublisherTests.PublishAsync_WithPersistedStatus_LogsDebug">
+            <summary>
+            Проверяет, что PublishAsync логирует результат доставки с Persisted статусом.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaMessagePublisherTests.PublishAsync_WithNonPersistedStatus_LogsWarning">
+            <summary>
+            Проверяет, что PublishAsync логирует предупреждение при статусе отличном от Persisted.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaMessagePublisherTests.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:WorkTrack.Common.Messaging.Kafka.Tests.KafkaProducerFactoryTests">
+            <summary>
+            Тесты для <see cref="T:WorkTrack.Common.Messaging.Kafka.Internal.KafkaProducerFactory"/>.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaProducerFactoryTests.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:WorkTrack.Common.Messaging.Kafka.Tests.KafkaProducerFactoryTests"/> class.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaProducerFactoryTests.GetProducer_ReturnsProducer">
+            <summary>
+            Проверяет, что GetProducer возвращает продюсер.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaProducerFactoryTests.GetProducer_ReturnsSameInstance">
+            <summary>
+            Проверяет, что GetProducer возвращает тот же экземпляр при повторных вызовах.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaProducerFactoryTests.Dispose_DisposesProducer">
+            <summary>
+            Проверяет, что Dispose освобождает ресурсы.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaProducerFactoryTests.Dispose_CanBeCalledMultipleTimes">
+            <summary>
+            Проверяет, что Dispose можно вызывать несколько раз безопасно.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaProducerFactoryTests.Constructor_WithNullOptions_ThrowsArgumentNullException">
+            <summary>
+            Проверяет, что конструктор бросает исключение при null options.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaProducerFactoryTests.Constructor_WithEmptyBootstrapServers_ThrowsArgumentException">
+            <summary>
+            Проверяет, что конструктор бросает исключение при пустом BootstrapServers.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaProducerFactoryTests.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:WorkTrack.Common.Messaging.Kafka.Tests.KafkaPublishExceptionTests">
+            <summary>
+            Тесты для <see cref="T:WorkTrack.Common.Messaging.Kafka.KafkaPublishException"/>.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaPublishExceptionTests.Constructor_WithTopicKeyAndInnerException_SetsPropertiesCorrectly">
+            <summary>
+            Проверяет, что конструктор с topic, key и innerException устанавливает свойства правильно.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaPublishExceptionTests.Message_ContainsTopicAndKey">
+            <summary>
+            Проверяет, что Message содержит информацию о topic и key.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaPublishExceptionTests.InnerException_IsPreserved">
+            <summary>
+            Проверяет, что InnerException сохраняется.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaPublishExceptionTests.Constructor_WithoutParameters_SetsEmptyStrings">
+            <summary>
+            Проверяет, что конструктор без параметров устанавливает пустые строки.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaPublishExceptionTests.Constructor_WithMessage_SetsEmptyStringsForTopicAndKey">
+            <summary>
+            Проверяет, что конструктор с message устанавливает пустые строки для Topic и Key.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.KafkaPublishExceptionTests.Constructor_WithMessageAndInnerException_SetsEmptyStringsForTopicAndKey">
+            <summary>
+            Проверяет, что конструктор с message и innerException устанавливает пустые строки для Topic и Key.
+            </summary>
+        </member>
+        <member name="T:WorkTrack.Common.Messaging.Kafka.Tests.ServiceCollectionExtensionsTests">
+            <summary>
+            Тесты для <see cref="T:WorkTrack.Common.Messaging.Kafka.DependencyInjection.ServiceCollectionExtensions"/>.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.ServiceCollectionExtensionsTests.AddKafkaMessagePublisher_WithConfigure_RegistersIMessagePublisher">
+            <summary>
+            Проверяет, что AddKafkaMessagePublisher регистрирует IMessagePublisher.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.ServiceCollectionExtensionsTests.AddKafkaMessagePublisher_WithConfigure_RegistersIKafkaProducerFactory">
+            <summary>
+            Проверяет, что AddKafkaMessagePublisher регистрирует IKafkaProducerFactory.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.ServiceCollectionExtensionsTests.AddKafkaMessagePublisher_WithConfiguration_RegistersIMessagePublisher">
+            <summary>
+            Проверяет, что AddKafkaMessagePublisher с IConfiguration регистрирует IMessagePublisher.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.ServiceCollectionExtensionsTests.AddKafkaMessagePublisher_WithConfigure_ConfiguresKafkaOptions">
+            <summary>
+            Проверяет, что AddKafkaMessagePublisher настраивает KafkaOptions.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.ServiceCollectionExtensionsTests.AddKafkaMessagePublisher_WithNullServices_ThrowsArgumentNullException">
+            <summary>
+            Проверяет, что AddKafkaMessagePublisher с null services бросает исключение.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.ServiceCollectionExtensionsTests.AddKafkaMessagePublisher_WithNullConfigure_ThrowsArgumentNullException">
+            <summary>
+            Проверяет, что AddKafkaMessagePublisher с null configure бросает исключение.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.ServiceCollectionExtensionsTests.AddKafkaMessagePublisher_WithNullConfiguration_ThrowsArgumentNullException">
+            <summary>
+            Проверяет, что AddKafkaMessagePublisher с null configuration бросает исключение.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.ServiceCollectionExtensionsTests.AddKafkaMessagePublisher_WithEmptyConfigurationSectionName_ThrowsArgumentException">
+            <summary>
+            Проверяет, что AddKafkaMessagePublisher с пустым configurationSectionName бросает исключение.
+            </summary>
+        </member>
+        <member name="T:WorkTrack.Common.Messaging.Kafka.Tests.ServiceCollectionExtensionsTests.TestMessageSerializer">
+            <summary>
+            Тестовый сериализатор для проверки DI регистрации.
+            </summary>
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.ServiceCollectionExtensionsTests.TestMessageSerializer.Serialize``1(``0)">
+            <inheritdoc />
+        </member>
+        <member name="M:WorkTrack.Common.Messaging.Kafka.Tests.ServiceCollectionExtensionsTests.TestMessageSerializer.Deserialize``1(System.String)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>
