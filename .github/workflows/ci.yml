@@ -23,11 +23,9 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Setup NuGet sources
-        env:
-          NUGET_PAT: ${{ secrets.NUGET_PAT }}
         run: |
           mkdir -p ~/.nuget/NuGet
-          cat > ~/.nuget/NuGet/NuGet.Config << 'EOF'
+          cat > ~/.nuget/NuGet/NuGet.Config << EOF
           <?xml version="1.0" encoding="utf-8"?>
           <configuration>
             <packageSources>
@@ -38,7 +36,7 @@ jobs:
             <packageSourceCredentials>
               <github>
                 <add key="Username" value="BelousovMike" />
-                <add key="ClearTextPassword" value="$NUGET_PAT" />
+                <add key="ClearTextPassword" value="${{ secrets.NUGET_PAT }}" />
               </github>
             </packageSourceCredentials>
             <packageSourceMapping>
@@ -51,8 +49,6 @@ jobs:
             </packageSourceMapping>
           </configuration>
           EOF
-          # Подставляем токен в файл после создания
-          sed -i "s|\$NUGET_PAT|${NUGET_PAT}|g" ~/.nuget/NuGet/NuGet.Config
 
       - name: Restore dependencies
         run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln
@@ -115,11 +111,9 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Setup NuGet sources
-        env:
-          NUGET_PAT: ${{ secrets.NUGET_PAT }}
         run: |
           mkdir -p ~/.nuget/NuGet
-          cat > ~/.nuget/NuGet/NuGet.Config << 'EOF'
+          cat > ~/.nuget/NuGet/NuGet.Config << EOF
           <?xml version="1.0" encoding="utf-8"?>
           <configuration>
             <packageSources>
@@ -130,7 +124,7 @@ jobs:
             <packageSourceCredentials>
               <github>
                 <add key="Username" value="BelousovMike" />
-                <add key="ClearTextPassword" value="$NUGET_PAT" />
+                <add key="ClearTextPassword" value="${{ secrets.NUGET_PAT }}" />
               </github>
             </packageSourceCredentials>
             <packageSourceMapping>
@@ -143,8 +137,6 @@ jobs:
             </packageSourceMapping>
           </configuration>
           EOF
-          # Подставляем токен в файл после создания
-          sed -i "s|\$NUGET_PAT|${NUGET_PAT}|g" ~/.nuget/NuGet/NuGet.Config
 
       - name: Restore dependencies
         run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln
