@@ -2,12 +2,16 @@
 
 Реализация `WorkTrack.Common.Messaging` для Apache Kafka. Предоставляет готовую реализацию `IMessagePublisher` для публикации сообщений в Kafka.
 
+**Версия**: 1.0.1  
+**Статус**: ✅ Опубликован в GitHub Packages  
+**CI/CD**: ✅ Автоматическая публикация при push в `main`
+
 ## Установка
 
 Пакет доступен через GitHub Packages. Добавьте в `Directory.Packages.props`:
 
 ```xml
-<PackageVersion Include="WorkTrack.Common.Messaging.Kafka" Version="1.0.0" />
+<PackageVersion Include="WorkTrack.Common.Messaging.Kafka" Version="1.0.1" />
 ```
 
 И в `.csproj`:
@@ -21,6 +25,7 @@
 Для доступа к GitHub Packages настройте `nuget.config`:
 
 ```xml
+<?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <packageSources>
     <clear />
@@ -29,11 +34,42 @@
   </packageSources>
   <packageSourceCredentials>
     <github>
-      <add key="Username" value="YOUR_GITHUB_USERNAME" />
+      <add key="Username" value="BelousovMike" />
       <add key="ClearTextPassword" value="YOUR_PERSONAL_ACCESS_TOKEN" />
     </github>
   </packageSourceCredentials>
+  <packageSourceMapping>
+    <packageSource key="github">
+      <package pattern="WorkTrack.Common.*" />
+    </packageSource>
+    <packageSource key="nuget.org">
+      <package pattern="*" />
+    </packageSource>
+  </packageSourceMapping>
 </configuration>
+```
+
+**Важно**: 
+- Для локальной разработки создайте Personal Access Token (PAT) с правами `read:packages` и `write:packages`
+- Используйте package source mapping для оптимизации поиска пакетов: `WorkTrack.Common.*` → GitHub Packages, остальные → nuget.org
+- Файл `nuget.config` с токеном должен быть в `.gitignore`
+
+### Настройка через CLI
+
+```bash
+# Обновить или добавить источник GitHub Packages
+dotnet nuget update source github \
+  --username BelousovMike \
+  --password YOUR_PERSONAL_ACCESS_TOKEN \
+  --store-password-in-clear-text || \
+dotnet nuget add source https://nuget.pkg.github.com/WorkTrack-Team/index.json \
+  --name github \
+  --username BelousovMike \
+  --password YOUR_PERSONAL_ACCESS_TOKEN \
+  --store-password-in-clear-text
+
+# Добавить nuget.org
+dotnet nuget add source https://api.nuget.org/v3/index.json --name nuget.org
 ```
 
 ## Использование
@@ -185,7 +221,56 @@ catch (KafkaPublishException ex)
 - `Microsoft.Extensions.Options` — конфигурация через опции
 - `Ardalis.GuardClauses` — guard clauses для валидации
 
+## Публикация пакета
+
+Пакет автоматически публикуется в GitHub Packages при push в ветку `main` через GitHub Actions workflow.
+
+### CI/CD Pipeline
+
+Workflow `.github/workflows/ci.yml` выполняет:
+1. Сборку решения
+2. Запуск unit-тестов
+3. Проверку форматирования кода (StyleCop)
+4. Автоматическую публикацию пакета в GitHub Packages при успешной сборке
+
+### Ручная публикация (если необходимо)
+
+```bash
+# Сборка пакета
+dotnet pack src/WorkTrack.Common.Messaging.Kafka/WorkTrack.Common.Messaging.Kafka.csproj \
+  --configuration Release \
+  --output ./nupkg
+
+# Публикация в GitHub Packages
+dotnet nuget push nupkg/WorkTrack.Common.Messaging.Kafka.*.nupkg \
+  --source github \
+  --api-key YOUR_PERSONAL_ACCESS_TOKEN \
+  --skip-duplicate
+```
+
+### Проверка публикации
+
+Пакет доступен по адресу:
+```
+https://nuget.pkg.github.com/WorkTrack-Team/download/worktrack.common.messaging.kafka/index.json
+```
+
+Проверка через API:
+```bash
+curl -u "BelousovMike:YOUR_PAT" \
+  "https://nuget.pkg.github.com/WorkTrack-Team/download/worktrack.common.messaging.kafka/index.json"
+```
+
+## Зависимые пакеты
+
+Этот пакет требует:
+- `WorkTrack.Common.Messaging` (1.1.0) — базовые абстракции, также опубликован в GitHub Packages
+
 ## Лицензия
 
-Proprietary — WorkTrack Team
+MIT
+
+## Репозиторий
+
+https://github.com/WorkTrack-Team/WorkTrack.Common.Messaging.Kafka
 

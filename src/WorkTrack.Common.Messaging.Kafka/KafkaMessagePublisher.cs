@@ -85,9 +85,12 @@ public sealed class KafkaMessagePublisher : MessagePublisherBase, IDisposable
 
     private static Headers BuildHeaders(IReadOnlyDictionary<string, string> mergedHeaders)
     {
+        Guard.Against.Null(mergedHeaders);
         Headers result = [];
         foreach (var header in mergedHeaders)
         {
+            Guard.Against.NullOrWhiteSpace(input: header.Key);
+            Guard.Against.Null(input: header.Value);
             result.Add(key: header.Key, val: Encoding.UTF8.GetBytes(s: header.Value));
         }
 

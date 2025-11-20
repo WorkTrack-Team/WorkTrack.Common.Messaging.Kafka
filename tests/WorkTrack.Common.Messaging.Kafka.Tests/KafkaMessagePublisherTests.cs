@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Text;
 using Confluent.Kafka;
 using FluentAssertions;
@@ -238,11 +239,69 @@ public sealed class KafkaMessagePublisherTests : IDisposable
             Arg.Any<object[]>());
     }
 
+    /// <summary>
+    /// Проверяет, что PublishAsync выбрасывает исключение при некорректных заголовках.
+    /// </summary>
+    [Theory]
+    [InlineData(null, "value")]
+    [InlineData("bad-key", null)]
+    [InlineData("", "value")]
+    public async Task PublishAsync_WithInvalidHeaders_ThrowsKafkaPublishException(string? headerKey, string? headerValue)
+    {
+        // Arrange
+        var payload = new { Test = "value" };
+        var topic = "test-topic";
+        var key = "test-key";
+        _serializer.Serialize(payload).Returns("{}");
+        var headers = new TestHeaders(
+            ("valid-key", "ok"),
+            (headerKey!, headerValue!));
+
+        // Act
+        Func<Task> act = async () => await _publisher.PublishAsync(
+            topic,
+            key,
+            payload,
+            headers);
+
+        // Assert
+        await act.Should().ThrowAsync<KafkaPublishException>();
+    }
+
     /// <inheritdoc />
     public void Dispose()
     {
         _publisher?.Dispose();
         _producerFactory?.Dispose();
         _producer?.Dispose();
+    }
+
+    private sealed class TestHeaders : IReadOnlyDictionary<string, string>
+    {
+        private readonly IReadOnlyList<(string? Key, string? Value)> _pairs;
+
+        public TestHeaders(params (string? Key, string? Value)[] pairs) => _pairs = pairs;
+
+        public IEnumerable<string> Keys => throw new NotSupportedException();
+
+        public IEnumerable<string> Values => throw new NotSupportedException();
+
+        public int Count => _pairs.Count;
+
+        public string this[string key] => throw new NotSupportedException();
+
+        public bool ContainsKey(string key) => throw new NotSupportedException();
+
+        public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
+        {
+            foreach (var (key, value) in _pairs)
+            {
+                yield return new KeyValuePair<string, string>(key!, value!);
+            }
+        }
+
+        public bool TryGetValue(string key, out string value) => throw new NotSupportedException();
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
