@@ -24,13 +24,31 @@ jobs:
 
       - name: Setup NuGet sources
         run: |
-          # Создаем временный NuGet.Config с подстановкой токена через envsubst
-          export NUGET_PAT="${{ secrets.NUGET_PAT }}"
-          envsubst < nuget.config > nuget.config.tmp
-          mv nuget.config.tmp nuget.config
-          
-          # Проверяем, что токен подставился
-          grep -q "ghp_" nuget.config || (echo "ERROR: PAT token not found in nuget.config" && exit 1)
+          # Создаем nuget.config программно с подстановкой токена
+          cat > nuget.config << EOF
+          <?xml version="1.0" encoding="utf-8"?>
+          <configuration>
+            <packageSources>
+              <clear />
+              <add key="github" value="https://nuget.pkg.github.com/WorkTrack-Team/index.json" />
+              <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
+            </packageSources>
+            <packageSourceCredentials>
+              <github>
+                <add key="Username" value="BelousovMike" />
+                <add key="ClearTextPassword" value="${{ secrets.NUGET_PAT }}" />
+              </github>
+            </packageSourceCredentials>
+            <packageSourceMapping>
+              <packageSource key="github">
+                <package pattern="WorkTrack.Common.*" />
+              </packageSource>
+              <packageSource key="nuget.org">
+                <package pattern="*" />
+              </packageSource>
+            </packageSourceMapping>
+          </configuration>
+          EOF
 
       - name: Restore dependencies
         run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln
@@ -94,13 +112,31 @@ jobs:
 
       - name: Setup NuGet sources
         run: |
-          # Создаем временный NuGet.Config с подстановкой токена через envsubst
-          export NUGET_PAT="${{ secrets.NUGET_PAT }}"
-          envsubst < nuget.config > nuget.config.tmp
-          mv nuget.config.tmp nuget.config
-          
-          # Проверяем, что токен подставился
-          grep -q "ghp_" nuget.config || (echo "ERROR: PAT token not found in nuget.config" && exit 1)
+          # Создаем nuget.config программно с подстановкой токена
+          cat > nuget.config << EOF
+          <?xml version="1.0" encoding="utf-8"?>
+          <configuration>
+            <packageSources>
+              <clear />
+              <add key="github" value="https://nuget.pkg.github.com/WorkTrack-Team/index.json" />
+              <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
+            </packageSources>
+            <packageSourceCredentials>
+              <github>
+                <add key="Username" value="BelousovMike" />
+                <add key="ClearTextPassword" value="${{ secrets.NUGET_PAT }}" />
+              </github>
+            </packageSourceCredentials>
+            <packageSourceMapping>
+              <packageSource key="github">
+                <package pattern="WorkTrack.Common.*" />
+              </packageSource>
+              <packageSource key="nuget.org">
+                <package pattern="*" />
+              </packageSource>
+            </packageSourceMapping>
+          </configuration>
+          EOF
 
       - name: Restore dependencies
         run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln
