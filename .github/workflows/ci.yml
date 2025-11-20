@@ -24,11 +24,31 @@ jobs:
 
       - name: Setup NuGet sources
         run: |
-          dotnet nuget add source https://nuget.pkg.github.com/WorkTrack-Team/index.json \
-            --name github \
-            --username BelousovMike \
-            --password ${{ secrets.GITHUB_TOKEN }} \
-            --store-password-in-clear-text
+          mkdir -p ~/.nuget/NuGet
+          cat > ~/.nuget/NuGet/NuGet.Config << EOF
+          <?xml version="1.0" encoding="utf-8"?>
+          <configuration>
+            <packageSources>
+              <clear />
+              <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
+              <add key="github" value="https://nuget.pkg.github.com/WorkTrack-Team/index.json" />
+            </packageSources>
+            <packageSourceCredentials>
+              <github>
+                <add key="Username" value="BelousovMike" />
+                <add key="ClearTextPassword" value="${{ secrets.GITHUB_TOKEN }}" />
+              </github>
+            </packageSourceCredentials>
+            <packageSourceMapping>
+              <packageSource key="github">
+                <package pattern="WorkTrack.Common.*" />
+              </packageSource>
+              <packageSource key="nuget.org">
+                <package pattern="*" />
+              </packageSource>
+            </packageSourceMapping>
+          </configuration>
+          EOF
 
       - name: Restore dependencies
         run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln
@@ -92,11 +112,31 @@ jobs:
 
       - name: Setup NuGet sources
         run: |
-          dotnet nuget add source https://nuget.pkg.github.com/WorkTrack-Team/index.json \
-            --name github \
-            --username BelousovMike \
-            --password ${{ secrets.GITHUB_TOKEN }} \
-            --store-password-in-clear-text
+          mkdir -p ~/.nuget/NuGet
+          cat > ~/.nuget/NuGet/NuGet.Config << EOF
+          <?xml version="1.0" encoding="utf-8"?>
+          <configuration>
+            <packageSources>
+              <clear />
+              <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
+              <add key="github" value="https://nuget.pkg.github.com/WorkTrack-Team/index.json" />
+            </packageSources>
+            <packageSourceCredentials>
+              <github>
+                <add key="Username" value="BelousovMike" />
+                <add key="ClearTextPassword" value="${{ secrets.GITHUB_TOKEN }}" />
+              </github>
+            </packageSourceCredentials>
+            <packageSourceMapping>
+              <packageSource key="github">
+                <package pattern="WorkTrack.Common.*" />
+              </packageSource>
+              <packageSource key="nuget.org">
+                <package pattern="*" />
+              </packageSource>
+            </packageSourceMapping>
+          </configuration>
+          EOF
 
       - name: Restore dependencies
         run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln
