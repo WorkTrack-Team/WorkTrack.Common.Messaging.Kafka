@@ -23,20 +23,16 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Setup NuGet sources
-        env:
-          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_PAT }}
         run: |
-          dotnet nuget add source https://nuget.pkg.github.com/WorkTrack-Team/index.json \
-            --name github \
-            --username BelousovMike \
-            --password "${{ secrets.NUGET_PAT }}" \
-            --store-password-in-clear-text
-          dotnet nuget add source https://api.nuget.org/v3/index.json \
-            --name nuget.org
+          # Создаем временный NuGet.Config с подстановкой токена через envsubst
+          export NUGET_PAT="${{ secrets.NUGET_PAT }}"
+          envsubst < nuget.config > nuget.config.tmp
+          mv nuget.config.tmp nuget.config
+          
+          # Проверяем, что токен подставился
+          grep -q "ghp_" nuget.config || (echo "ERROR: PAT token not found in nuget.config" && exit 1)
 
       - name: Restore dependencies
-        env:
-          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_PAT }}
         run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln
 
       - name: Build
@@ -97,20 +93,16 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Setup NuGet sources
-        env:
-          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_PAT }}
         run: |
-          dotnet nuget add source https://nuget.pkg.github.com/WorkTrack-Team/index.json \
-            --name github \
-            --username BelousovMike \
-            --password "${{ secrets.NUGET_PAT }}" \
-            --store-password-in-clear-text
-          dotnet nuget add source https://api.nuget.org/v3/index.json \
-            --name nuget.org
+          # Создаем временный NuGet.Config с подстановкой токена через envsubst
+          export NUGET_PAT="${{ secrets.NUGET_PAT }}"
+          envsubst < nuget.config > nuget.config.tmp
+          mv nuget.config.tmp nuget.config
+          
+          # Проверяем, что токен подставился
+          grep -q "ghp_" nuget.config || (echo "ERROR: PAT token not found in nuget.config" && exit 1)
 
       - name: Restore dependencies
-        env:
-          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_PAT }}
         run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln
 
       - name: Run analyzers
