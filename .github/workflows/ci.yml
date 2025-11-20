@@ -25,16 +25,16 @@ jobs:
       - name: Setup NuGet sources
         run: |
           # Настраиваем аутентификацию для GitHub Packages
-          # Username может быть любым, но рекомендуется использовать github.actor (имя пользователя, который запускает workflow)
+          # Используем NUGET_PAT для доступа к пакетам организации
           # Сначала пытаемся обновить существующий источник, если его нет - добавляем новый
           dotnet nuget update source github \
-            --username ${{ github.actor }} \
-            --password ${{ secrets.GITHUB_TOKEN }} \
+            --username BelousovMike \
+            --password "${{ secrets.NUGET_PAT }}" \
             --store-password-in-clear-text || \
           dotnet nuget add source https://nuget.pkg.github.com/WorkTrack-Team/index.json \
             --name github \
-            --username ${{ github.actor }} \
-            --password ${{ secrets.GITHUB_TOKEN }} \
+            --username BelousovMike \
+            --password "${{ secrets.NUGET_PAT }}" \
             --store-password-in-clear-text
           
           # Добавляем nuget.org как источник для публичных пакетов (если его еще нет)
@@ -119,16 +119,16 @@ jobs:
       - name: Setup NuGet sources
         run: |
           # Настраиваем аутентификацию для GitHub Packages
-          # Username может быть любым, но рекомендуется использовать github.actor (имя пользователя, который запускает workflow)
+          # Используем NUGET_PAT для доступа к пакетам организации
           # Сначала пытаемся обновить существующий источник, если его нет - добавляем новый
           dotnet nuget update source github \
-            --username ${{ github.actor }} \
-            --password ${{ secrets.GITHUB_TOKEN }} \
+            --username BelousovMike \
+            --password "${{ secrets.NUGET_PAT }}" \
             --store-password-in-clear-text || \
           dotnet nuget add source https://nuget.pkg.github.com/WorkTrack-Team/index.json \
             --name github \
-            --username ${{ github.actor }} \
-            --password ${{ secrets.GITHUB_TOKEN }} \
+            --username BelousovMike \
+            --password "${{ secrets.NUGET_PAT }}" \
             --store-password-in-clear-text
           
           # Добавляем nuget.org как источник для публичных пакетов (если его еще нет)
