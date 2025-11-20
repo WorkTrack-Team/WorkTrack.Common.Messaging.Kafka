@@ -24,19 +24,15 @@ jobs:
 
       - name: Setup NuGet sources
         run: |
-          dotnet nuget update source github \
-            --configfile nuget.config \
-            --username BelousovMike \
-            --password "${{ secrets.NUGET_PAT }}" \
-            --store-password-in-clear-text || \
           dotnet nuget add source https://nuget.pkg.github.com/WorkTrack-Team/index.json \
             --name github \
-            --configfile nuget.config \
             --username BelousovMike \
             --password "${{ secrets.NUGET_PAT }}" \
             --store-password-in-clear-text
 
       - name: Restore dependencies
+        env:
+          NUGET_PACKAGE_SOURCE_MAPPING: '{"WorkTrack.Common.*":["github"],"*":["nuget.org"]}'
         run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln
 
       - name: Build
@@ -98,19 +94,15 @@ jobs:
 
       - name: Setup NuGet sources
         run: |
-          dotnet nuget update source github \
-            --configfile nuget.config \
-            --username BelousovMike \
-            --password "${{ secrets.NUGET_PAT }}" \
-            --store-password-in-clear-text || \
           dotnet nuget add source https://nuget.pkg.github.com/WorkTrack-Team/index.json \
             --name github \
-            --configfile nuget.config \
             --username BelousovMike \
             --password "${{ secrets.NUGET_PAT }}" \
             --store-password-in-clear-text
 
       - name: Restore dependencies
+        env:
+          NUGET_PACKAGE_SOURCE_MAPPING: '{"WorkTrack.Common.*":["github"],"*":["nuget.org"]}'
         run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln
 
       - name: Run analyzers
