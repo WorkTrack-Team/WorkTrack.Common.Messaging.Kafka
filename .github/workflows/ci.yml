@@ -35,7 +35,7 @@ jobs:
             </packageSources>
             <packageSourceCredentials>
               <github>
-                <add key="Username" value="BelousovMike" />
+                <add key="Username" value="${{ github.repository_owner }}" />
                 <add key="ClearTextPassword" value="${{ secrets.GITHUB_TOKEN }}" />
               </github>
             </packageSourceCredentials>
@@ -123,7 +123,7 @@ jobs:
             </packageSources>
             <packageSourceCredentials>
               <github>
-                <add key="Username" value="BelousovMike" />
+                <add key="Username" value="${{ github.repository_owner }}" />
                 <add key="ClearTextPassword" value="${{ secrets.GITHUB_TOKEN }}" />
               </github>
             </packageSourceCredentials>
