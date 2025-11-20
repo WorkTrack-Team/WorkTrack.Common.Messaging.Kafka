@@ -29,11 +29,11 @@ jobs:
             --username BelousovMike \
             --password "${{ secrets.NUGET_PAT }}" \
             --store-password-in-clear-text
+          dotnet nuget add source https://api.nuget.org/v3/index.json \
+            --name nuget.org
 
       - name: Restore dependencies
-        env:
-          NUGET_PACKAGE_SOURCE_MAPPING: '{"WorkTrack.Common.*":["github"],"*":["nuget.org"]}'
-        run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln
+        run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln --source github --source nuget.org
 
       - name: Build
         run: dotnet build WorkTrack.Common.Messaging.Kafka.sln --no-restore --configuration Release
@@ -99,11 +99,11 @@ jobs:
             --username BelousovMike \
             --password "${{ secrets.NUGET_PAT }}" \
             --store-password-in-clear-text
+          dotnet nuget add source https://api.nuget.org/v3/index.json \
+            --name nuget.org
 
       - name: Restore dependencies
-        env:
-          NUGET_PACKAGE_SOURCE_MAPPING: '{"WorkTrack.Common.*":["github"],"*":["nuget.org"]}'
-        run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln
+        run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln --source github --source nuget.org
 
       - name: Run analyzers
         run: dotnet build WorkTrack.Common.Messaging.Kafka.sln --no-restore --configuration Release -warnaserror
