@@ -11,7 +11,7 @@
     <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
     <StyleCopEnabled>true</StyleCopEnabled>
-    <NoWarn>$(NoWarn);SA1101;SA1633;SA1623;CA1308;CA1848</NoWarn>
+    <NoWarn>$(NoWarn);SA1101;SA1633;SA1623;CA1308;CA1848;NU1507</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="$([System.String]::Copy('$(MSBuildProjectName)').EndsWith('Tests'))">
