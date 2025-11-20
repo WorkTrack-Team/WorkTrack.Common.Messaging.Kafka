@@ -26,15 +26,20 @@ jobs:
         run: |
           # Настраиваем аутентификацию для GitHub Packages
           # Username может быть любым, но рекомендуется использовать github.actor (имя пользователя, который запускает workflow)
+          # Сначала пытаемся обновить существующий источник, если его нет - добавляем новый
+          dotnet nuget update source github \
+            --username ${{ github.actor }} \
+            --password ${{ secrets.GITHUB_TOKEN }} \
+            --store-password-in-clear-text || \
           dotnet nuget add source https://nuget.pkg.github.com/WorkTrack-Team/index.json \
             --name github \
             --username ${{ github.actor }} \
             --password ${{ secrets.GITHUB_TOKEN }} \
             --store-password-in-clear-text
           
-          # Добавляем nuget.org как источник для публичных пакетов
+          # Добавляем nuget.org как источник для публичных пакетов (если его еще нет)
           dotnet nuget add source https://api.nuget.org/v3/index.json \
-            --name nuget.org
+            --name nuget.org || true
           
           # Создаем nuget.config с package source mapping для оптимизации поиска пакетов
           cat > nuget.config << 'EOF'
@@ -115,15 +120,20 @@ jobs:
         run: |
           # Настраиваем аутентификацию для GitHub Packages
           # Username может быть любым, но рекомендуется использовать github.actor (имя пользователя, который запускает workflow)
+          # Сначала пытаемся обновить существующий источник, если его нет - добавляем новый
+          dotnet nuget update source github \
+            --username ${{ github.actor }} \
+            --password ${{ secrets.GITHUB_TOKEN }} \
+            --store-password-in-clear-text || \
           dotnet nuget add source https://nuget.pkg.github.com/WorkTrack-Team/index.json \
             --name github \
             --username ${{ github.actor }} \
             --password ${{ secrets.GITHUB_TOKEN }} \
             --store-password-in-clear-text
           
-          # Добавляем nuget.org как источник для публичных пакетов
+          # Добавляем nuget.org как источник для публичных пакетов (если его еще нет)
           dotnet nuget add source https://api.nuget.org/v3/index.json \
-            --name nuget.org
+            --name nuget.org || true
           
           # Создаем nuget.config с package source mapping для оптимизации поиска пакетов
           cat > nuget.config << 'EOF'
