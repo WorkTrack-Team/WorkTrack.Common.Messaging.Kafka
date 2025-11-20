@@ -24,21 +24,22 @@ jobs:
 
       - name: Setup NuGet sources
         run: |
-          # Создаем nuget.config программно с подстановкой токена
-          cat > nuget.config << EOF
+          # Настраиваем аутентификацию для GitHub Packages
+          # Username может быть любым, но рекомендуется использовать github.actor (имя пользователя, который запускает workflow)
+          dotnet nuget add source https://nuget.pkg.github.com/WorkTrack-Team/index.json \
+            --name github \
+            --username ${{ github.actor }} \
+            --password ${{ secrets.GITHUB_TOKEN }} \
+            --store-password-in-clear-text
+          
+          # Добавляем nuget.org как источник для публичных пакетов
+          dotnet nuget add source https://api.nuget.org/v3/index.json \
+            --name nuget.org
+          
+          # Создаем nuget.config с package source mapping для оптимизации поиска пакетов
+          cat > nuget.config << 'EOF'
           <?xml version="1.0" encoding="utf-8"?>
           <configuration>
-            <packageSources>
-              <clear />
-              <add key="github" value="https://nuget.pkg.github.com/WorkTrack-Team/index.json" />
-              <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
-            </packageSources>
-            <packageSourceCredentials>
-              <github>
-                <add key="Username" value="${{ github.repository_owner }}" />
-                <add key="ClearTextPassword" value="${{ secrets.GITHUB_TOKEN }}" />
-              </github>
-            </packageSourceCredentials>
             <packageSourceMapping>
               <packageSource key="github">
                 <package pattern="WorkTrack.Common.*" />
@@ -112,21 +113,22 @@ jobs:
 
       - name: Setup NuGet sources
         run: |
-          # Создаем nuget.config программно с подстановкой токена
-          cat > nuget.config << EOF
+          # Настраиваем аутентификацию для GitHub Packages
+          # Username может быть любым, но рекомендуется использовать github.actor (имя пользователя, который запускает workflow)
+          dotnet nuget add source https://nuget.pkg.github.com/WorkTrack-Team/index.json \
+            --name github \
+            --username ${{ github.actor }} \
+            --password ${{ secrets.GITHUB_TOKEN }} \
+            --store-password-in-clear-text
+          
+          # Добавляем nuget.org как источник для публичных пакетов
+          dotnet nuget add source https://api.nuget.org/v3/index.json \
+            --name nuget.org
+          
+          # Создаем nuget.config с package source mapping для оптимизации поиска пакетов
+          cat > nuget.config << 'EOF'
           <?xml version="1.0" encoding="utf-8"?>
           <configuration>
-            <packageSources>
-              <clear />
-              <add key="github" value="https://nuget.pkg.github.com/WorkTrack-Team/index.json" />
-              <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
-            </packageSources>
-            <packageSourceCredentials>
-              <github>
-                <add key="Username" value="${{ github.repository_owner }}" />
-                <add key="ClearTextPassword" value="${{ secrets.GITHUB_TOKEN }}" />
-              </github>
-            </packageSourceCredentials>
             <packageSourceMapping>
               <packageSource key="github">
                 <package pattern="WorkTrack.Common.*" />
