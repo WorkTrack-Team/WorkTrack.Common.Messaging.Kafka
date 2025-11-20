@@ -36,7 +36,7 @@ jobs:
             <packageSourceCredentials>
               <github>
                 <add key="Username" value="BelousovMike" />
-                <add key="ClearTextPassword" value="${{ secrets.NUGET_PAT }}" />
+                <add key="ClearTextPassword" value="${{ secrets.GITHUB_TOKEN }}" />
               </github>
             </packageSourceCredentials>
             <packageSourceMapping>
@@ -124,7 +124,7 @@ jobs:
             <packageSourceCredentials>
               <github>
                 <add key="Username" value="BelousovMike" />
-                <add key="ClearTextPassword" value="${{ secrets.NUGET_PAT }}" />
+                <add key="ClearTextPassword" value="${{ secrets.GITHUB_TOKEN }}" />
               </github>
             </packageSourceCredentials>
             <packageSourceMapping>
