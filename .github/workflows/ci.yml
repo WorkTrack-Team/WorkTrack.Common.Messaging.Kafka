@@ -23,26 +23,20 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Setup NuGet sources
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_PAT }}
         run: |
-          # Обновляем credentials в существующем nuget.config
-          dotnet nuget update source github \
-            --configfile nuget.config \
-            --username BelousovMike \
-            --password "${{ secrets.NUGET_PAT }}" \
-            --store-password-in-clear-text || \
           dotnet nuget add source https://nuget.pkg.github.com/WorkTrack-Team/index.json \
             --name github \
-            --configfile nuget.config \
             --username BelousovMike \
             --password "${{ secrets.NUGET_PAT }}" \
             --store-password-in-clear-text
-          
-          # Добавляем nuget.org если его нет
           dotnet nuget add source https://api.nuget.org/v3/index.json \
-            --name nuget.org \
-            --configfile nuget.config || true
+            --name nuget.org
 
       - name: Restore dependencies
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_PAT }}
         run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln
 
       - name: Build
@@ -103,26 +97,20 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Setup NuGet sources
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_PAT }}
         run: |
-          # Обновляем credentials в существующем nuget.config
-          dotnet nuget update source github \
-            --configfile nuget.config \
-            --username BelousovMike \
-            --password "${{ secrets.NUGET_PAT }}" \
-            --store-password-in-clear-text || \
           dotnet nuget add source https://nuget.pkg.github.com/WorkTrack-Team/index.json \
             --name github \
-            --configfile nuget.config \
             --username BelousovMike \
             --password "${{ secrets.NUGET_PAT }}" \
             --store-password-in-clear-text
-          
-          # Добавляем nuget.org если его нет
           dotnet nuget add source https://api.nuget.org/v3/index.json \
-            --name nuget.org \
-            --configfile nuget.config || true
+            --name nuget.org
 
       - name: Restore dependencies
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_PAT }}
         run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln
 
       - name: Run analyzers
