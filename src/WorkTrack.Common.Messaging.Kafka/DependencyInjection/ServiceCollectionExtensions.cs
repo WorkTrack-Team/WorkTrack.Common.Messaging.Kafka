@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Serilog;
+using WorkTrack.Common.Messaging.DependencyInjection;
 using WorkTrack.Common.Messaging.Kafka.Internal;
 using WorkTrack.Common.Messaging.Kafka.Options;
 using WorkTrack.Common.Messaging.Publishers;
@@ -29,6 +30,7 @@ public static class ServiceCollectionExtensions
         Guard.Against.Null(services);
         Guard.Against.Null(configure);
 
+        services.AddCommonMessaging();
         services.Configure(configureOptions: configure);
         RegisterKafkaMessagePublisher(services);
 
@@ -51,6 +53,7 @@ public static class ServiceCollectionExtensions
         Guard.Against.Null(configuration);
         Guard.Against.NullOrWhiteSpace(configurationSectionName);
 
+        services.AddCommonMessaging();
         services.Configure<KafkaOptions>(options => configuration.GetSection(configurationSectionName).Bind(options));
         RegisterKafkaMessagePublisher(services);
 

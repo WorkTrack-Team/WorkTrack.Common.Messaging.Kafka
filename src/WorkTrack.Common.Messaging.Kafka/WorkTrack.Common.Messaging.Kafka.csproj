@@ -10,7 +10,7 @@
     
     <!-- NuGet Package Configuration -->
     <PackageId>WorkTrack.Common.Messaging.Kafka</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>WorkTrack Team</Authors>
     <Company>WorkTrack</Company>
     <Description>Реализация IMessagePublisher для Apache Kafka</Description>

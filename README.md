@@ -2,7 +2,7 @@
 
 Реализация `WorkTrack.Common.Messaging` для Apache Kafka. Предоставляет готовую реализацию `IMessagePublisher` для публикации сообщений в Kafka.
 
-**Версия**: 1.0.1  
+**Версия**: 1.0.2  
 **Статус**: ✅ Опубликован в GitHub Packages  
 **CI/CD**: ✅ Автоматическая публикация при push в `main`
 
@@ -82,9 +82,6 @@ using WorkTrack.Common.Messaging.Kafka;
 using WorkTrack.Common.Messaging.Kafka.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Регистрируем базовые сервисы messaging
-builder.Services.AddCommonMessaging();
 
 // Регистрируем Kafka publisher через конфигурацию
 builder.Services.AddKafkaMessagePublisher(builder.Configuration, "Kafka");
