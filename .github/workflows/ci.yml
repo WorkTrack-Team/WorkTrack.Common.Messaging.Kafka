@@ -2,13 +2,17 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
   pull_request:
-    branches: [main, develop]
+    branches: [main]
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,19 +23,53 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln
 
       - name: Build
-        run: dotnet build --no-restore --configuration Release
+        run: dotnet build WorkTrack.Common.Messaging.Kafka.sln --no-restore --configuration Release
 
       - name: Run tests
-        run: dotnet test --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage"
+        run: dotnet test WorkTrack.Common.Messaging.Kafka.sln --no-build --configuration Release --verbosity normal --collect:"XPlat Code Coverage" --results-directory:./TestResults
+
+      - name: Generate coverage report
+        if: always()
+        run: |
+          python3 << 'EOF'
+          import xml.etree.ElementTree as ET
+          import glob
+          pattern = "TestResults/*/coverage.cobertura.xml"
+          files = glob.glob(pattern)
+          if files:
+              files.sort(reverse=True)
+              tree = ET.parse(files[0])
+              root = tree.getroot()
+              line_rate = float(root.attrib.get('line-rate', 0)) * 100
+              branch_rate = float(root.attrib.get('branch-rate', 0)) * 100
+              print(f"Покрытие строк: {line_rate:.2f}%")
+              print(f"Покрытие ветвей: {branch_rate:.2f}%")
+          EOF
 
       - name: Upload coverage
         uses: codecov/codecov-action@v4
         with:
           files: '**/coverage.cobertura.xml'
           fail_ci_if_error: false
+
+      - name: Publish NuGet package
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: dotnet pack src/WorkTrack.Common.Messaging.Kafka/WorkTrack.Common.Messaging.Kafka.csproj --no-build --configuration Release --output ./nupkg /p:TreatWarningsAsErrors=false /p:NuGetTreatWarningsAsErrors=false
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push to GitHub Packages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          dotnet nuget push ./nupkg/*.nupkg \
+            --source https://nuget.pkg.github.com/WorkTrack-Team/index.json \
+            --api-key ${{ secrets.GITHUB_TOKEN }} \
+            --skip-duplicate
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   lint:
     runs-on: ubuntu-latest
@@ -45,8 +83,8 @@ jobs:
           dotnet-version: '9.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore WorkTrack.Common.Messaging.Kafka.sln
 
       - name: Run analyzers
-        run: dotnet build --no-restore --configuration Release -warnaserror
+        run: dotnet build WorkTrack.Common.Messaging.Kafka.sln --no-restore --configuration Release -warnaserror
 
